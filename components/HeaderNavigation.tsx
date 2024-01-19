@@ -13,22 +13,23 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { CATEGORIES } from "@/utils/categories";
+import { Category } from "@/types";
 
 export function HeaderNavigation() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
+              {CATEGORIES.map((category: Category) => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
+                  key={category.id}
+                  href={`/categories/${category.slug}`}
                 >
-                  {component.description}
+                  {category.name}
                 </ListItem>
               ))}
             </ul>
