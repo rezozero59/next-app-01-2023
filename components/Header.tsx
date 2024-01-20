@@ -3,6 +3,7 @@ import PageContainer from "./PageContainer";
 import { HeaderNavigation } from "./HeaderNavigation";
 import ProfileButton from "./ProfileButton";
 import ResponsiveMenu from "./ResponsiveMenu";
+import ToggleTheme from "./ToggleTheme";
 
 export default function Header() {
   return (
@@ -19,8 +20,8 @@ export default function Header() {
           {/* Navigation chadcn */}
           <HeaderNavigation />
           {/* buttons */}
-          <div className="flex items-center">
-            {/* Toogle Dark Mode */}
+          <div className="flex items-center gap-2">
+            <ToggleTheme />
             <ProfileButton />
           </div>
         </div>
