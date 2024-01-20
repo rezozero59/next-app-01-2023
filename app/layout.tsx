@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Header from "@/components/Header";
 import ThemeProvider from "@/providers/theme-provider";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +22,13 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          <div>{children}</div>
-          <div>
-            <p>Footer</p>
+          <div
+            className="flex flex-col 
+         justify-between flex-fill min-h-screen"
+          >
+            <Header />
+            <div className="flex-grow">{children}</div>
+            <Footer />
           </div>
         </ThemeProvider>
       </body>
