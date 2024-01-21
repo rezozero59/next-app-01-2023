@@ -40,6 +40,8 @@ export default function Home() {
             </Button>
           ))}
         </div>
+
+        {/* Articles */}
       </div>
     </PageContainer>
   );
