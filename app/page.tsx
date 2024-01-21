@@ -3,6 +3,9 @@
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Category } from "@/types";
+import { CATEGORIES } from "@/utils/categories";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -20,13 +23,22 @@ export default function Home() {
               <Input
                 type="email"
                 placeholder="Email"
-                className="dark:bg-white mt-4"
+                className="dark:bg-white mt-4 text-black dark:text-black"
               />
               <Button size="lg" className="w-full py-6 text-xl mt-4">
                 Inscris-toi
               </Button>
             </div>
           </div>
+        </div>
+
+        {/* Categories */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
+          {CATEGORIES.map((category: Category) => (
+            <Button variant="outline" key={category.id}>
+              <Link href={`/categories/${category.id}`}>{category.name}</Link>
+            </Button>
+          ))}
         </div>
       </div>
     </PageContainer>
