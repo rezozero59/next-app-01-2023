@@ -17,9 +17,9 @@ export default function Header() {
               NextBlog
             </h1>
           </div>
-          {/* Navigation chadcn */}
+
           <HeaderNavigation />
-          {/* buttons */}
+
           <div className="flex items-center gap-2">
             <ToggleTheme />
             <ProfileButton />

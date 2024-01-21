@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row gap-2">
             {CATEGORIES.map((category: Category) => (
               <div key={category.id}>
-                <Link href={`/category/${category.slug}`}>
+                <Link href={`/categories/${category.slug}`}>
                   <Button variant="ghost">{category.name}</Button>
                 </Link>
               </div>
