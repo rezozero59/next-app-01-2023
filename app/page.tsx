@@ -1,10 +1,12 @@
 "use client";
 
 import PageContainer from "@/components/PageContainer";
+import PostList from "@/components/post-list";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Category } from "@/types";
 import { CATEGORIES } from "@/utils/categories";
+import { POSTS } from "@/utils/posts";
 import Link from "next/link";
 
 export default function Home() {
@@ -42,6 +44,8 @@ export default function Home() {
         </div>
 
         {/* Articles */}
+
+        <PostList posts={POSTS} />
       </div>
     </PageContainer>
   );
