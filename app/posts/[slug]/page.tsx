@@ -18,6 +18,7 @@ export default function SinglePostPage() {
     nbViews: 25,
     nbComments: 8,
     slug: "react-state-management-choosing-right-solution",
+    content: "lorem ipsum",
   };
 
   return (
@@ -59,6 +60,12 @@ export default function SinglePostPage() {
           </div>
         </div>
         <Separator />
+        <div
+          className="mt-6"
+          dangerouslySetInnerHTML={{
+            __html: POST.content as string,
+          }}
+        ></div>
       </div>
     </PageContainer>
   );
