@@ -27,7 +27,7 @@ export default function Home() {
                 placeholder="Email"
                 className="dark:bg-white mt-4 text-black dark:text-black"
               />
-              <Button size="lg" className="w-full py-6 text-xl mt-4">
+              <Button size="lg" className="w-full py-4 text-lg mt-4">
                 Inscris-toi
               </Button>
             </div>

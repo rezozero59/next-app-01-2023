@@ -15,7 +15,7 @@ export default function Header() {
             <ResponsiveMenu />
             <Link href="/">
               <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-400 to-blue-600">
-                NextBlog
+                LD BLOG
               </h1>
             </Link>
           </div>
