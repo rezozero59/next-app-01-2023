@@ -2,6 +2,7 @@
 
 import { Post } from "@/types";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/connect";
 
 const POST: Post = {
   id: 1,
@@ -27,5 +28,17 @@ export const GET = async (
   // api/posts/react-native
   // slug en params
   // -->DB -->post
-  return NextResponse.json(POST, { status: 200 });
+  try {
+    const post = await prisma.post.findUnique({
+      where: { slug },
+    });
+    return NextResponse.json(post, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "Post not found",
+      },
+      { status: 500 }
+    );
+  }
 };
