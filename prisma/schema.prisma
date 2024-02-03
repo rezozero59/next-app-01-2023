@@ -15,7 +15,7 @@ model Post {
   title String
   slug String @unique
   content String @db.Text
-  img String?
+  image String?
   views Int @default(0)
   nbComments Int @default(0)
   // user
