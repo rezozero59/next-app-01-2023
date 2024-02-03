@@ -29,8 +29,9 @@ export const GET = async (
   // slug en params
   // -->DB -->post
   try {
-    const post = await prisma.post.findUnique({
+    const post = await prisma.post.update({
       where: { slug },
+      data: { views: { increment: 1 } },
     });
     return NextResponse.json(post, { status: 200 });
   } catch (error) {
