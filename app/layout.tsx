@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import ThemeProvider from "@/providers/theme-provider";
 import Footer from "@/components/Footer";
+import QueryProvider from "@/providers/query-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,16 +22,18 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div
-            className="flex flex-col 
+        <QueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div
+              className="flex flex-col 
          justify-between flex-fill min-h-screen"
-          >
-            <Header />
-            <div className="flex-grow">{children}</div>
-            <Footer />
-          </div>
-        </ThemeProvider>
+            >
+              <Header />
+              <div className="flex-grow">{children}</div>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );
