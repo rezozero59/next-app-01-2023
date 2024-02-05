@@ -10,6 +10,7 @@ import { POSTS } from "@/utils/posts";
 import Link from "next/link";
 
 export default function Home() {
+  // get Posts from db
   return (
     <PageContainer>
       <div className="py-10 px-4">
