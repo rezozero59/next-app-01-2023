@@ -4,6 +4,7 @@ import PageContainer from "@/components/PageContainer";
 import PostList from "@/components/post-list";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { usePosts } from "@/hooks/usePosts";
 import { Category } from "@/types";
 import { CATEGORIES } from "@/utils/categories";
 import { POSTS } from "@/utils/posts";
@@ -11,6 +12,8 @@ import Link from "next/link";
 
 export default function Home() {
   // get Posts from db
+  const { data: posts, isFetching } = usePosts();
+
   return (
     <PageContainer>
       <div className="py-10 px-4">
@@ -46,7 +49,7 @@ export default function Home() {
 
         {/* Articles */}
 
-        <PostList posts={POSTS} />
+        {!isFetching && <PostList posts={posts} />}
       </div>
     </PageContainer>
   );
