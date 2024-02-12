@@ -8,6 +8,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 // model 
 model Post {
   id String @id @default(cuid())
@@ -18,19 +19,19 @@ model Post {
   image String?
   views Int @default(0)
   nbComments Int @default(0)
-  catSlug String
-  cat Category @relation(fields: [catSlug], references: [slug])
+  // catSlug String
+  // cat Category @relation(fields: [catSlug], references: [slug])
 
-  @@index([catSlug], name: "idx_post_catSlug")
+  // @@index([catSlug], name: "idx_post_catSlug")
 
 }
 
 
-model Category {
-  id String @id @default(cuid())
-  slug String @unique
-  title String
-  image String?
-  posts Post[]
-  @@index([slug], name: "idx_category_slug")
-}
+// model Category {
+//   id String @id @default(cuid())
+//   slug String @unique
+//   title String
+//   image String?
+//   posts Post[]
+//   @@index([slug], name: "idx_category_slug")
+// }
