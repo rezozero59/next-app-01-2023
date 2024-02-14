@@ -10,6 +10,9 @@ export const GET = async (req: Request) => {
       where: {
         ...(catSlug && catSlug !== "null" && catSlug !== "" && { catSlug }),
       },
+      include: {
+        cat: true,
+      },
     });
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {}
