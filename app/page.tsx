@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCategories } from "@/hooks/useCategories";
 import { usePosts } from "@/hooks/usePosts";
-import { Category } from "@/types";
-import { CATEGORIES } from "@/utils/categories";
-import { POSTS } from "@/utils/posts";
+import { Category } from "@prisma/client";
 import Link from "next/link";
 
 export default function Home() {
@@ -44,7 +42,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
           {categories?.map((category: Category) => (
             <Button variant="outline" key={category.id}>
-              <Link href={`/categories/${category.id}`}>{category.name}</Link>
+              <Link href={`/categories/${category.id}`}>{category.title}</Link>
             </Button>
           ))}
         </div>

@@ -22,7 +22,7 @@ model Post {
   catSlug String
   cat Category @relation(fields: [catSlug], references: [slug])
 
-  // @@index([catSlug], name: "idx_post_catSlug")
+  @@index([catSlug], name: "idx_post_catSlug")
 
 }
 
@@ -33,5 +33,5 @@ model Category {
   title String
   image String?
   posts Post[]
-  // @@index([slug], name: "idx_category_slug")
+  @@index([slug], name: "idx_category_slug")
 }
