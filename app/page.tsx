@@ -4,6 +4,7 @@ import PageContainer from "@/components/PageContainer";
 import PostList from "@/components/post-list";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCategories } from "@/hooks/useCategories";
 import { usePosts } from "@/hooks/usePosts";
 import { Category } from "@/types";
 import { CATEGORIES } from "@/utils/categories";
@@ -13,6 +14,7 @@ import Link from "next/link";
 export default function Home() {
   // get Posts from db
   const { data: posts, isFetching } = usePosts();
+  const { data: categories } = useCategories();
 
   return (
     <PageContainer>
@@ -40,7 +42,7 @@ export default function Home() {
 
         {/* Categories */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-6">
-          {CATEGORIES.map((category: Category) => (
+          {categories?.map((category: Category) => (
             <Button variant="outline" key={category.id}>
               <Link href={`/categories/${category.id}`}>{category.name}</Link>
             </Button>

@@ -1,4 +1,3 @@
-import { Category } from "@/types";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/connect";
 
