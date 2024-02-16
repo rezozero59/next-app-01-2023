@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export default function ProfileButton() {
   const { data: session, status } = useSession();
@@ -17,6 +24,24 @@ export default function ProfileButton() {
       </Link>
     );
   }
+
+  const onLogout = () => {
+    signOut();
+  };
   // user connected => avatar + menu
-  return {};
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Avatar>
+          <AvatarImage src={session.user?.image || "/img/avatar.png"} />
+          <AvatarFallback>{session.user?.name}</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={onLogout} className="cursor-pointer">
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
