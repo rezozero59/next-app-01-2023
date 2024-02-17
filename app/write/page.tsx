@@ -1,5 +1,3 @@
-"use client";
-
 import PageContainer from "@/components/PageContainer";
 import PageTitle from "@/components/page-title";
 import { Input } from "@/components/ui/input";
@@ -11,13 +9,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/useCategories";
-import { Category } from "@prisma/client";
+import { Category, Post } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
 import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function WritePage() {
   const [title, setTitle] = useState("");
@@ -25,6 +26,9 @@ export default function WritePage() {
   const [content, setContent] = useState("");
 
   const { data: categories, isFetching } = useCategories();
+
+  useMutation((newPost: Partial<Post>) => axios.post("/api/posts", newPost));
+
   const { data: session } = useSession();
 
   const router = useRouter();
