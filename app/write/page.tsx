@@ -34,10 +34,15 @@ export default function WritePage() {
 
   const { data: categories, isFetching } = useCategories();
 
+  // @ts-ignore
   const { mutate } = useMutation({
-    mutationFn: (newPost: Partial<Post>) => axios.post("/api/posts", newPost),
+    mutationFn: (newPost) => axios.post("/api/posts", newPost),
     onSuccess: (data) => {
       console.log("data ok", data);
+    },
+    // Vous pouvez ajouter onError ici pour gérer les erreurs
+    onError: (error) => {
+      console.error("Erreur lors de la création du post :", error);
     },
   });
 
@@ -58,14 +63,32 @@ export default function WritePage() {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (title !== "" && catSlug !== "" && content !== "") {
-      await mutate({
+
+    const image = await uploadImage();
+    console.log("image", image);
+
+    if (title !== "" && catSlug !== "" && content !== "" && image) {
+      // @ts-ignore
+      mutate({
         title,
         content,
         catSlug,
         slug: slugify(title),
-        image: "/img/coding-hero.jpg",
+        image,
       });
+    }
+  };
+
+  const uploadImage = async () => {
+    try {
+      if (!file) return;
+
+      const data = new FormData();
+      data.set("file", file);
+      const response = await axios.post("/api/upload", data);
+      return response.data; // {imageUrl: "/images/1234_file.jpg"}
+    } catch (error) {
+      console.error("error in upLoadImage", error);
     }
   };
 
