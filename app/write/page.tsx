@@ -1,3 +1,5 @@
+"use client";
+
 import PageContainer from "@/components/PageContainer";
 import PageTitle from "@/components/page-title";
 import { Input } from "@/components/ui/input";
@@ -13,11 +15,11 @@ import { Category, Post } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { Mutation, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function WritePage() {
@@ -27,16 +29,32 @@ export default function WritePage() {
 
   const { data: categories, isFetching } = useCategories();
 
-  useMutation((newPost: Partial<Post>) => axios.post("/api/posts", newPost));
+  const { mutate } = useMutation({
+    mutationFn: (newPost: Partial<Post>) => axios.post("/api/posts", newPost),
+    onSuccess: (data) => {
+      console.log("data ok", data);
+    },
+  });
 
   const { data: session } = useSession();
 
   const router = useRouter();
-  // if (!session) {
-  //   router.replace("/login");
-  // }
+  if (!session) {
+    router.replace("/login");
+  }
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (title !== "" && catSlug !== "" && content !== "") {
+      await mutate({
+        title,
+        content,
+        catSlug,
+        slug: title.trim().toLowerCase().replace(" ", "-"),
+        image: "/img/coding-hero.jpg",
+      });
+    }
+  };
 
   return (
     <PageContainer>
