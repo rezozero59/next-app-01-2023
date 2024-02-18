@@ -21,10 +21,15 @@ import ReactQuill from "react-quill";
 import { Button } from "@/components/ui/button";
 import { Mutation, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { slugify } from "@/utils/slugify";
+import Image from "next/image";
 
 export default function WritePage() {
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
+  const [file, setFile] = useState<File>();
+  const [imageObjectUrl, setImageObjectUrl] = useState<string | null>(null);
+
   const [content, setContent] = useState("");
 
   const { data: categories, isFetching } = useCategories();
@@ -43,6 +48,14 @@ export default function WritePage() {
     router.replace("/login");
   }
 
+  const onChangeFile = (e: SyntheticEvent) => {
+    const files = (e.target as HTMLInputElement).files;
+
+    if (!files || !files[0]) return;
+    setFile(files[0]);
+    setImageObjectUrl(URL.createObjectURL(files[0]));
+  };
+
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (title !== "" && catSlug !== "" && content !== "") {
@@ -50,7 +63,7 @@ export default function WritePage() {
         title,
         content,
         catSlug,
-        slug: title.trim().toLowerCase().replace(" ", "-"),
+        slug: slugify(title),
         image: "/img/coding-hero.jpg",
       });
     }
@@ -60,6 +73,17 @@ export default function WritePage() {
     <PageContainer>
       <div className="p-10">
         <PageTitle title="Write a post" />
+        {/* image */}
+        <div className="mb-6">
+          {imageObjectUrl && (
+            <div className="relative w-40 h-40 mx-auto mb-4">
+              <Image src={imageObjectUrl} fill alt={title} objectFit="cover" />
+            </div>
+          )}
+
+          <Input type="file" onChange={onChangeFile} />
+        </div>
+
         <Input
           type="text"
           placeholder="Title"
