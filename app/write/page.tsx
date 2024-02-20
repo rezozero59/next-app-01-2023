@@ -95,7 +95,7 @@ export default function WritePage() {
   return (
     <PageContainer>
       <div className="p-10">
-        <PageTitle title="Write a post" />
+        <PageTitle title="Write a post" />--
         {/* image */}
         <div className="mb-6">
           {imageObjectUrl && (

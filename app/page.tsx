@@ -24,7 +24,7 @@ export default function Home() {
           <div className="h-full w-full flex flex-col justify-center items-center">
             <div className="sm:max-w-xl max-w-xs bg-secondary/80 p-4 rounded-lg">
               <h1 className="text-center font-bold text-3xl sm:text-5xl text-black dark:text-white ">
-                Deviens un bon dev web
+                Ici mon futur Blog !
               </h1>
               <Input
                 type="email"
@@ -32,7 +32,7 @@ export default function Home() {
                 className="dark:bg-white mt-4 text-black dark:text-black"
               />
               <Button size="lg" className="w-full py-4 text-lg mt-4">
-                Inscris-toi
+                Inscris-toi ici pour essayer !
               </Button>
             </div>
           </div>
