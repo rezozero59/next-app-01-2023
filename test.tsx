@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/useCategories";
-import { Category, Post } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,6 @@ import React, { SyntheticEvent, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { Button } from "@/components/ui/button";
-import { Mutation, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { slugify } from "@/utils/slugify";
 import Image from "next/image";
@@ -27,28 +26,16 @@ import Image from "next/image";
 export default function WritePage() {
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
   const [imageObjectUrl, setImageObjectUrl] = useState<string | null>(null);
-
   const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const { data: categories, isFetching } = useCategories();
-
-  // @ts-ignore
-  const { mutate } = useMutation({
-    mutationFn: (newPost) => axios.post("/api/posts", newPost),
-    onSuccess: (data) => {
-      console.log("data ok", data);
-    },
-    // Vous pouvez ajouter onError ici pour gérer les erreurs
-    onError: (error) => {
-      console.error("Erreur lors de la création du post :", error);
-    },
-  });
-
   const { data: session } = useSession();
-
   const router = useRouter();
+
   if (!session) {
     router.replace("/login");
   }
@@ -56,39 +43,51 @@ export default function WritePage() {
   const onChangeFile = (e: SyntheticEvent) => {
     const files = (e.target as HTMLInputElement).files;
 
-    if (!files || !files[0]) return;
+    if (!files || files.length === 0) return;
     setFile(files[0]);
     setImageObjectUrl(URL.createObjectURL(files[0]));
   };
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    const image = await uploadImage();
-    console.log("image", image);
+    try {
+      const image = await uploadImage();
 
-    if (title !== "" && catSlug !== "" && content !== "" && image) {
-      // @ts-ignore
-      mutate({
-        title,
-        content,
-        catSlug,
-        slug: slugify(title),
-        image,
-      });
+      if (title && catSlug && content && image) {
+        await axios.post("/api/posts", {
+          title,
+          content,
+          catSlug,
+          slug: slugify(title),
+          image,
+        });
+
+        // Gestion de la réussite, par exemple rediriger vers une autre page ou afficher un message de succès
+        console.log("Post créé avec succès");
+        router.push("/some-success-page"); // Redirection après succès
+      }
+    } catch (error) {
+      console.error("Erreur lors de la création du post :", error);
+      setSubmitError("Une erreur est survenue lors de la création du post.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const uploadImage = async () => {
-    try {
-      if (!file) return;
+    if (!file) return;
 
+    try {
       const data = new FormData();
-      data.set("file", file);
+      data.append("file", file);
       const response = await axios.post("/api/upload", data);
-      return response.data; // {imageUrl: "/images/1234_file.jpg"}
+      return response.data; // Suppose que le serveur renvoie un objet avec une clé imageUrl
     } catch (error) {
-      console.error("error in upLoadImage", error);
+      console.error("Erreur lors de l'upload de l'image :", error);
+      throw error; // Propager l'erreur pour la gérer dans handleSubmit
     }
   };
 
