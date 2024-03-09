@@ -1,4 +1,5 @@
 "use client";
+// reprendre liaison avec le serveur cf API
 
 import PageContainer from "@/components/PageContainer";
 import PostList from "@/components/post-list";
